@@ -15,9 +15,10 @@ class HomePageTest(TestCase):
     def test_home_page_respond_correct_html(self):
         request = HttpRequest()
         response = home_page(request)  # give home_page a request, return a response
+        html = response.content.decode('utf8')  # decode raw byte content into utf-8
         # the correct response should be an html page starting with <html>
-        self.assertTrue(response.content.startswith(b'<html>'))  # response.content is raw bytes, use b'<str>'
+        self.assertTrue(html.startswith('<html>'))
         # the title of the home page should be Skill Tracker
-        self.assertIn(b'<title>Skill Tracker</title>', response.content)
+        self.assertIn('<title>Skill Tracker</title>', html)
         # the response page should end with </html>
-        self.assertTrue(response.content.endswith(b'</html>'))
+        self.assertTrue(html.endswith('</html>'))

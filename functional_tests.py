@@ -6,11 +6,13 @@ The functional tests / black box tests / acceptance tests / end2end tests
 from selenium import webdriver  # the web driver for functional tests
 import unittest  # use unittest module for whilte box tests
 from selenium.webdriver.common.keys import Keys  # for sending key press to webdriver
+import time  # to use sleep
 
 
 """conf"""
 URL_LOCAL = 'http://127.0.0.1:8000'  # local url of web app
 WAIT_SEC = 3  # number of seconds wait at start
+SHORT_PAUSE = 1  # generic short wait, for latency, slow machines
 
 
 class NewVisitorTest(unittest.TestCase):  # group tests into classes
@@ -48,6 +50,7 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
         # When she press enter, the page updates, and lists "1. Poke the training dummy with needle."
         #   as an item to the skill log
         input_box.send_keys(Keys.ENTER)
+        time.sleep(SHORT_PAUSE)  # wait for enter to work, db to finish updating, page to update
         table = self.browser.find_element_by_id('id_list_table')  # find the listing table by id
         rows = table.find_elements_by_tag_name('tr')  # get all table rows from table
         self.assertTrue(

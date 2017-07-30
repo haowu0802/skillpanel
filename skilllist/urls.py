@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from tracker.views import home_page
+from tracker import views
 
 urlpatterns = [
-    url(r'^$', home_page, name='home')
+    url(r'^$', views.home_page, name='home')
     # url(r'^admin/', admin.site.urls),
 ]
