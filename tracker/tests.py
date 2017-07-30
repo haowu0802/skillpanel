@@ -21,4 +21,4 @@ class HomePageTest(TestCase):
         # the title of the home page should be Skill Tracker
         self.assertIn('<title>Skill Tracker</title>', html)
         # the response page should end with </html>
-        self.assertTrue(html.endswith('</html>'))
+        self.assertTrue(html.strip().endswith('</html>'))  # ignore \n at end
