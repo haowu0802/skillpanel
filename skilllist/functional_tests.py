@@ -8,8 +8,8 @@ import unittest  # use unittest module for whilte box tests
 
 
 """conf"""
-# local url of web app
-localurl = 'http://127.0.0.1:8000'
+URL_LOCAL = 'http://127.0.0.1:8000'  # local url of web app
+WAIT_SEC = 3  # number of seconds wait at start
 
 
 class NewVisitorTest(unittest.TestCase):  # group tests into classes
@@ -17,6 +17,7 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
     def setUp(self):
         """setUp runs before each test"""
         self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(WAIT_SEC)
 
     def tearDown(self):
         """tearDown runs after each test, even with exceptions"""
@@ -24,7 +25,7 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
 
     def test_can_visit_the_page_and_leave(self):
         # My lady comes to the cool website that helps people saving their skills
-        self.browser.get(localurl)
+        self.browser.get(URL_LOCAL)
         # She sees in the title, "Skill List", which is what the web app does.
         self.assertIn('Skill List', self.browser.title)
         self.fail('todo')
