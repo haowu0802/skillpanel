@@ -35,10 +35,10 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
 
         # She sees on the page, a big "Skill List" text showing
         header_text = self.browser.find_element_by_tag_name('h1').text  # find the first h1 el and get its text
-        self.assertIn('Skill Tracker', header_text)
+        self.assertIn('Skill Logs', header_text)
 
         # She's invited to enter a Skill Log immediately
-        input_box = self.browser.find_element_by_id('id_new_item')  # find input box by id 'id_new_item'
+        input_box = self.browser.find_element_by_id('id_new_log')  # find input box by id 'id_new_item'
         self.assertEqual(
             input_box.get_attribute('placeholder'),  # check to see if 'Enter a log' is the placeholder of the input box
             'Enter a log'
@@ -51,11 +51,12 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
         #   as an item to the skill log
         input_box.send_keys(Keys.ENTER)
         time.sleep(SHORT_PAUSE)  # wait for enter to work, db to finish updating, page to update
-        table = self.browser.find_element_by_id('id_list_table')  # find the listing table by id
+        table = self.browser.find_element_by_id('id_log_table')  # find the listing table by id
         rows = table.find_elements_by_tag_name('tr')  # get all table rows from table
         self.assertTrue(
             # see if any of the rows has the log, any(? x in []) is a little-known python built-in
-            any(row.text == '1. Poke the training dummy with needle.' for row in rows)
+            any(row.text == '1. Poke the training dummy with needle.' for row in rows),
+            "New log not appearing in log table"
         )
 
         # There's still a text box inviting her to add another log, she enters "chase the cat in the dungeon" (Sneaking)
