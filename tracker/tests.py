@@ -8,17 +8,7 @@ from tracker.views import home_page  # for testing home_page view
 
 class HomePageTest(TestCase):
 
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')  # found.func is the view function of '/'
-        self.assertEqual(found.func, home_page)
-
-    def test_home_page_respond_correct_html(self):
-        request = HttpRequest()
-        response = home_page(request)  # give home_page a request, return a response
-        html = response.content.decode('utf8')  # decode raw byte content into utf-8
-        # the correct response should be an html page starting with <html>
-        self.assertTrue(html.startswith('<html>'))
-        # the title of the home page should be Skill Tracker
-        self.assertIn('<title>Skill Tracker</title>', html)
-        # the response page should end with </html>
-        self.assertTrue(html.strip().endswith('</html>'))  # ignore \n at end
+    def test_uses_home_template(self):
+        response = self.client.get('/')  # dj-test.client get page
+        # make sure it's using the correct template, only work with response from TestCase.client
+        self.assertTemplateUsed(response, 'home.html')
