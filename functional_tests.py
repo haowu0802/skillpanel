@@ -27,7 +27,7 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
         # My lady comes to the cool website that helps people saving their skills
         self.browser.get(URL_LOCAL)
         # She sees in the title, "Skill List", which is what the web app does.
-        self.assertIn('Skill List', self.browser.title)
+        self.assertIn('Skill Tracker', self.browser.title)
         self.fail('todo')
         # She's satisfied and left.
 
