@@ -3,8 +3,8 @@ The functional tests / black box tests / acceptance tests / end2end tests
     for Skill List
         by Leon (Hao Wu)
 """
+from django.test import LiveServerTestCase
 from selenium import webdriver  # the web driver for functional tests
-import unittest  # use unittest module for whilte box tests
 from selenium.webdriver.common.keys import Keys  # for sending key press to webdriver
 import time  # to use sleep
 
@@ -16,7 +16,7 @@ SHORT_PAUSE = 1  # generic short wait, for latency, slow machines
 LONG_PAUSE = 10  # generic long pause, for debugging
 
 
-class NewVisitorTest(unittest.TestCase):  # group tests into classes
+class NewVisitorTest(LiveServerTestCase):  # group tests into classes
     """a new visitor's common behavior first time to the web app"""
     def setUp(self):
         """setUp runs before each test"""
@@ -39,7 +39,7 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Arya Stark comes to the cool website that helps people saving their skills
-        self.browser.get(URL_LOCAL)
+        self.browser.get(self.live_server_url)
 
         # She sees in the title, "Skill List", which is what the web app does.
         self.assertIn('Skill Tracker', self.browser.title)
@@ -81,7 +81,3 @@ class NewVisitorTest(unittest.TestCase):  # group tests into classes
 
         # She's satisfied and left.
 
-
-"""main"""
-if __name__ == '__main__':
-    unittest.main()  # main runs the test runner which auto find all test_ functions and run them
