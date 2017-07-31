@@ -12,7 +12,9 @@
     </form>
 
     <table id="id_log_table" >
-      <tr><td>1. {{ new_log_text }}</td></tr>
+      {% for log in logs %}
+        <tr><td>{{ forloop.counter }}. {{ log.text }}</td></tr>
+      {% endfor %}
     </table>
 
   </body>

@@ -7,7 +7,7 @@ from django.test import TestCase  # extends unittest.TestCase
 from django.core.urlresolvers import resolve  # for resolving url internally
 from django.http import HttpRequest  # for request pages
 
-from tracker.models import Log
+from tracker.models import Log  # the Log that user inputs to track their skills
 
 from tracker.views import home_page  # for testing home_page view
 # Create your tests here.
@@ -21,14 +21,36 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def test_can_save_a_POST_request(self):
-        # use client to post to / with a new log data, and get response
+        """check: POST data is saved as orm"""
+        self.client.post('/', data={
+            'log_text': 'A new log item'
+        })  # use client to post to / with a new log data, and get response
+
+        self.assertEqual(Log.objects.count(), 1)  # check if there is 1 log saved in db
+        new_log = Log.objects.first()
+        self.assertEqual(new_log.text, 'A new log item')  # correct text?
+
+    def test_redirects_after_POST(self):
+        """, and redirect(302) to / after save"""
         response = self.client.post('/', data={
             'log_text': 'A new log item'
         })
-        # check to see if the new log item is in the response
-        self.assertIn('A new log item', response.content.decode())
-        # check again if using the right tpl
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertEqual(response.status_code, 302)  # redirect
+        self.assertEqual(response['location'], '/')  # to /
+
+    def test_only_saves_log_when_necessary(self):
+        """check: no log is saved when home page is visited"""
+        self.client.get('/')
+        self.assertEqual(Log.objects.count(), 0)
+
+    def test_display_all_log_items(self):
+        Log.objects.create(text='log1')  # setup 2 logs
+        Log.objects.create(text='log2')
+
+        response = self.client.get('/')  # exercise the page
+
+        self.assertIn('log1', response.content.decode())  # assert the results
+        self.assertIn('log2', response.content.decode())
 
 
 class LogModelTest(TestCase):
