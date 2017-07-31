@@ -2,9 +2,18 @@
   <head>
     <title>Skill Tracker</title>
   </head>
+
   <body>
     <h1>Your Skill Logs</h1>
-    <input id="id_new_log" placeholder="Enter a log" />
-    <table id="id_log_table" ></table>
+
+    <form method="POST">
+      <input id="id_new_log" name="log_text" placeholder="Enter a log" />
+      {% csrf_token %}
+    </form>
+
+    <table id="id_log_table" >
+      <tr><td>1. {{ new_log_text }}</td></tr>
+    </table>
+
   </body>
 </html>

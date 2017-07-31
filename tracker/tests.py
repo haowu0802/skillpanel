@@ -12,3 +12,13 @@ class HomePageTest(TestCase):
         response = self.client.get('/')  # dj-test.client get page
         # make sure it's using the correct template, only work with response from TestCase.client
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_can_save_a_POST_request(self):
+        # use client to post to / with a new log data, and get response
+        response = self.client.post('/', data={
+            'log_text': 'A new log item'
+        })
+        # check to see if the new log item is in the response
+        self.assertIn('A new log item', response.content.decode())
+        # check again if using the right tpl
+        self.assertTemplateUsed(response, 'home.html')
