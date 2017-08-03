@@ -48,7 +48,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
                     raise e
                 time.sleep(SHORT_PAUSE)
 
-    def test_can_start_a_list_and_retrieve_it_later(self):
+    def test_can_start_a_list_for_one_user(self):
         # Arya Stark comes to the cool website that helps people saving their skills
         self.browser.get(self.live_server_url)
 
@@ -83,10 +83,50 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
         self.wait_for_text_in_rows_of_table('1. Poke the training dummy with needle.')
         self.wait_for_text_in_rows_of_table('2. Chase the cat in the dungeon.')
 
-        # Arya wonders if the site will remember her lists, and sees that a URL is generated, with some text
-        self.fail('listing first log finished, more to do...')
+        # Arya wonders if the site will remember her trackers, and sees that a URL is generated, with some text
 
         # She visits the URL, and the logs are still there
 
         # She's satisfied and left.
+
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        # Arya starts a new skill tracker
+        self.browser.get(self.live_server_url)
+        input_box = self.browser.find_element_by_id('id_new_log')
+        input_box.send_keys('Poke the training dummy with needle.')
+        input_box.send_keys(Keys.ENTER)
+        self.wait_for_text_in_rows_of_table('1. Poke the training dummy with needle.')
+
+        # She notices that her tracker has a unique URL
+        arya_tracker_url = self.browser.current_url
+        self.assertRegex(arya_tracker_url, '/trackers/.+')
+
+        # Now a new user, Jon Snow, comes to the site
+        """Use a new browser session to make sure that no information of Arya's is coming through from cookies etc"""
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # Jon visits the home page, there is no sign of Arya's trackers
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_elements_by_tag_name('body').text
+        self.assertNotIn('training dummy', page_text)
+        self.assertNotIn('cat in the dungeon', page_text)
+
+        # Jon starts a new tracker by entering new log, he is less interesting than Arya
+        input_box = self.browser.find_element_by_id('id_new_log')
+        input_box.send_keys('Patrol the wall')
+        input_box.send_keys(Keys.ENTER)
+        self.wait_for_text_in_rows_of_table('1. Patrol the wall')
+
+        # Jon gets his own URL for his tracker
+        jon_tracker_url = self.browser.current_url
+        self.assertRegex(jon_tracker_url, '/trackers/.+')
+        self.assertNotEqual(jon_tracker_url, arya_tracker_url)
+
+        # Again, there's no sign of Arya's logs
+        page_text = self.browser.find_elements_by_tag_name('body').text
+        self.assertNotIn('training dummy', page_text)
+        self.assertNotIn('cat in the dungeon', page_text)
+
+        # Satisfied, both of them left.
 
