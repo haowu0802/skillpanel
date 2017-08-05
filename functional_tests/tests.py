@@ -57,7 +57,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
 
         # She sees on the page, a big "Skill List" text showing
         header_text = self.browser.find_element_by_tag_name('h1').text  # find the first h1 el and get its text
-        self.assertIn('Skill Logs', header_text)
+        self.assertIn('Skill Tracker', header_text)
 
         # She's invited to enter a Skill Log immediately
         input_box = self.browser.find_element_by_id('id_new_log')  # find input box by id 'id_new_item'

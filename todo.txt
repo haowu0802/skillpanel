@@ -1,0 +1,24 @@
+# a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
+##
+
+refactor home page view, template - removed invalid elements
+add new template, tests for tracker view
+change routing and view to make tracker RESTful-like
+give a tracker its own URL
+add FT for testing multiple users - feature: multiple tracker for users
+refactor wait helper - to wait by page element
+refactor test engine - Django test framework used
+refactor FT - decoupled functional tests
+add redirection after 'add log' - user experience standardized
+add log model. migration, unittests - spec for models existed
+add post input function - specification of how to add a log existed
+add template check for home page - template check existed
+add home page template - root UI template exited
+add 'add' and 'list' function of tracker to FT - the first features existed
+add home page - root UI existed
+add tracker app - main app existed
+add unit test - spec existed
+add user story to functional test - guideline for app behavior existed
+initialize Django project - web app existed
+add initial function test - TDD started
+create repo and ignorefile - project existed

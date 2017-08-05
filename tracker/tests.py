@@ -36,21 +36,12 @@ class HomePageTest(TestCase):
             'log_text': 'A new log item'
         })
         self.assertEqual(response.status_code, 302)  # redirect
-        self.assertEqual(response['location'], '/')  # to /
+        self.assertEqual(response['location'], '/trackers/the-only-tracker/')  # to /
 
     def test_only_saves_log_when_necessary(self):
         """check: no log is saved when home page is visited"""
         self.client.get('/')
         self.assertEqual(Log.objects.count(), 0)
-
-    def test_display_all_log_items(self):
-        Log.objects.create(text='log1')  # setup 2 logs
-        Log.objects.create(text='log2')
-
-        response = self.client.get('/')  # exercise the page
-
-        self.assertIn('log1', response.content.decode())  # assert the results
-        self.assertIn('log2', response.content.decode())
 
 
 class LogModelTest(TestCase):
@@ -73,3 +64,21 @@ class LogModelTest(TestCase):
         # to see if they have the correct content
         self.assertEqual(first_saved_log.text, 'The first (ever) log item')
         self.assertEqual(second_saved_log.text, 'Log the second')
+
+
+class TrackerViewTest(TestCase):
+
+    def test_uses_tracker_template(self):
+        """if tracker view use tracker tpl"""
+        response = self.client.get('/trackers/the-only-tracker/')
+        self.assertTemplateUsed(response, 'tracker.html')
+
+    def test_display_all_logs(self):
+        """if logs created will show in tracker view"""
+        Log.objects.create(text='log1')  # setup 2 logs
+        Log.objects.create(text='log2')
+
+        response = self.client.get('/trackers/the-only-tracker/')  # exercise the page
+
+        self.assertContains(response, 'log1')  # assertContains deals with content decoding, http code, etc.
+        self.assertContains(response, 'log2')

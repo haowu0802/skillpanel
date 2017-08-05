@@ -18,6 +18,7 @@ from django.contrib import admin
 from tracker import views
 
 urlpatterns = [
-    url(r'^$', views.home_page, name='home')
+    url(r'^$', views.home_page, name='home'),
+    url(r'^trackers/the-only-tracker/$', views.view_tracker, name='view_tracker'),
     # url(r'^admin/', admin.site.urls),
 ]

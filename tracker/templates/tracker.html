@@ -1,0 +1,21 @@
+<html>
+<head>
+  <title>Skill Tracker</title>
+</head>
+
+<body>
+<h1>Your Skill Logs</h1>
+
+<form method="POST" action="/">
+  <input id="id_new_log" name="log_text" placeholder="Enter a log" />
+  {% csrf_token %}
+</form>
+
+<table id="id_log_table" >
+  {% for log in logs %}
+  <tr><td>{{ forloop.counter }}. {{ log.text }}</td></tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>
