@@ -6,7 +6,14 @@ generate URL for each tracker
 add URL for POST create log to exist tracker
 
 #HISTORY:
-FINISHED: add URL for POST create new tracker
+MILESTONE: tracker model added
+tracker model: fix views for POST with Tracker obj in Log obj
+tracker model: fix unittest for display logs,
+tracker model: add tracker attr to logs, with FK set
+tracker model: makemigrations for Tracker model
+tracker model: add Tracker model to unit test
+tracker model[makeTest]: update unit test for save/read logs to save/read logs and associating tracker
+MILESTONE: add URL for POST create new tracker
 regression: fix form action target to trackers/new
 refactor: remove test_only_save_when_necessary from home_page test
 refactor: remove POST functions in home_page view

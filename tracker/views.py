@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from tracker.models import Log
+from tracker.models import Log, Tracker
 
 # Create your views here.
 
@@ -17,5 +17,7 @@ def view_tracker(request):
 
 def new_tracker(request):
     """create a new tracker and redirect to its url"""
-    Log.objects.create(text=request.POST['log_text'])
+    tracker = Tracker.objects.create()
+    Log.objects.create(text=request.POST['log_text'],
+                       tracker=tracker)
     return redirect('/trackers/the-only-tracker/')

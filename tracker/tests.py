@@ -7,7 +7,7 @@ from django.test import TestCase  # extends unittest.TestCase
 from django.core.urlresolvers import resolve  # for resolving url internally
 from django.http import HttpRequest  # for request pages
 
-from tracker.models import Log  # the Log that user inputs to track their skills
+from tracker.models import Log, Tracker  # the Log that user inputs to track their skills
 
 from tracker.views import home_page  # for testing home_page view
 # Create your tests here.
@@ -21,39 +21,52 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
 
-class LogModelTest(TestCase):
-
+class LogAndTrackerModelTest(TestCase):
+    """test functions of Log and Tracker models"""
     def test_saving_and_retrieving_logs(self):
-        # create and save 1st log
+        """check save and read functions"""
+        # create and save associated tracker
+        tracker = Tracker()
+        tracker.save()
+
+        # create and save 2 logs
         first_log = Log()
         first_log.text = 'The first (ever) log item'
+        first_log.tracker = tracker
         first_log.save()
-        # create and save 2nd log
         second_log = Log()
         second_log.text = 'Log the second'
+        second_log.tracker = tracker
         second_log.save()
-        # get all 2 logs and see if we have 2
+
+        # check if saved logs and tracker are correct
+        saved_tracker = Tracker.objects.first()
+        self.assertEqual(saved_tracker, tracker)
         saved_logs = Log.objects.all()
         self.assertEqual(saved_logs.count(), 2)
-        # specifically check each log
+
+        # check each log and see if they have the correct properties
         first_saved_log = saved_logs[0]
         second_saved_log = saved_logs[1]
-        # to see if they have the correct content
         self.assertEqual(first_saved_log.text, 'The first (ever) log item')
+        self.assertEqual(first_saved_log.tracker, tracker)
         self.assertEqual(second_saved_log.text, 'Log the second')
+        self.assertEqual(second_saved_log.tracker, tracker)
 
 
 class TrackerViewTest(TestCase):
 
     def test_uses_tracker_template(self):
-        """if tracker view use tracker tpl"""
+        """CHECK: tracker view use tracker tpl"""
         response = self.client.get('/trackers/the-only-tracker/')
         self.assertTemplateUsed(response, 'tracker.html')
 
     def test_display_all_logs(self):
-        """if logs created will show in tracker view"""
-        Log.objects.create(text='log1')  # setup 2 logs
-        Log.objects.create(text='log2')
+        """CHECK: logs created will show in tracker view"""
+        # create 2 Logs and their Tracker
+        tracker = Tracker.objects.create()
+        Log.objects.create(text='log1', tracker=tracker)
+        Log.objects.create(text='log2', tracker=tracker)
 
         response = self.client.get('/trackers/the-only-tracker/')  # exercise the page
 
@@ -64,7 +77,7 @@ class TrackerViewTest(TestCase):
 class NewTrackerTest(TestCase):
     """tests for creating new tracker"""
     def test_can_save_a_POST_request(self):
-        """check: POST data is saved as orm"""
+        """CHECK: POST data is saved as orm"""
         # with client, post a new log to db
         self.client.post('/trackers/new', data={
             'log_text': 'A new log item'
@@ -76,7 +89,7 @@ class NewTrackerTest(TestCase):
         self.assertEqual(new_log.text, 'A new log item')
 
     def test_redirects_after_POST(self):
-        """check redirect works after POST"""
+        """CHECK: redirect works after POST"""
         # make the POST
         response = self.client.post('/trackers/new', data={
             'log_text': 'A new log item'
