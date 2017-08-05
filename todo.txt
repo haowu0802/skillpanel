@@ -1,6 +1,20 @@
 # a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
 ##
+#TODOS:
+mod model -> logs belongs to each tracker
+generate URL for each tracker
+add URL for POST create log to exist tracker
 
+#HISTORY:
+FINISHED: add URL for POST create new tracker
+regression: fix form action target to trackers/new
+refactor: remove test_only_save_when_necessary from home_page test
+refactor: remove POST functions in home_page view
+new tracker: add create log to new_tracker view
+new tracker: add redirect to new_tracker view
+new tracker: add new_tracker view
+new tracker: build url for new tracker
+add unit test class for tracker creation : test new tracker, test post-save redirection
 refactor home page view, template - removed invalid elements
 add new template, tests for tracker view
 change routing and view to make tracker RESTful-like

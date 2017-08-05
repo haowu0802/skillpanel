@@ -20,29 +20,6 @@ class HomePageTest(TestCase):
         # make sure it's using the correct template, only work with response from TestCase.client
         self.assertTemplateUsed(response, 'home.html')
 
-    def test_can_save_a_POST_request(self):
-        """check: POST data is saved as orm"""
-        self.client.post('/', data={
-            'log_text': 'A new log item'
-        })  # use client to post to / with a new log data, and get response
-
-        self.assertEqual(Log.objects.count(), 1)  # check if there is 1 log saved in db
-        new_log = Log.objects.first()
-        self.assertEqual(new_log.text, 'A new log item')  # correct text?
-
-    def test_redirects_after_POST(self):
-        """, and redirect(302) to / after save"""
-        response = self.client.post('/', data={
-            'log_text': 'A new log item'
-        })
-        self.assertEqual(response.status_code, 302)  # redirect
-        self.assertEqual(response['location'], '/trackers/the-only-tracker/')  # to /
-
-    def test_only_saves_log_when_necessary(self):
-        """check: no log is saved when home page is visited"""
-        self.client.get('/')
-        self.assertEqual(Log.objects.count(), 0)
-
 
 class LogModelTest(TestCase):
 
@@ -82,3 +59,29 @@ class TrackerViewTest(TestCase):
 
         self.assertContains(response, 'log1')  # assertContains deals with content decoding, http code, etc.
         self.assertContains(response, 'log2')
+
+
+class NewTrackerTest(TestCase):
+    """tests for creating new tracker"""
+    def test_can_save_a_POST_request(self):
+        """check: POST data is saved as orm"""
+        # with client, post a new log to db
+        self.client.post('/trackers/new', data={
+            'log_text': 'A new log item'
+        })
+
+        # check if there is 1 log saved in db, and it has the correct text
+        self.assertEqual(Log.objects.count(), 1)
+        new_log = Log.objects.first()
+        self.assertEqual(new_log.text, 'A new log item')
+
+    def test_redirects_after_POST(self):
+        """check redirect works after POST"""
+        # make the POST
+        response = self.client.post('/trackers/new', data={
+            'log_text': 'A new log item'
+        })
+        # check the redirection
+        expected_url = "/trackers/the-only-tracker/"
+        assert isinstance(response, object)
+        self.assertRedirects(response, expected_url)

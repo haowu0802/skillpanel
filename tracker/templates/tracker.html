@@ -6,7 +6,7 @@
 <body>
 <h1>Your Skill Logs</h1>
 
-<form method="POST" action="/">
+<form method="POST" action="/trackers/new">
   <input id="id_new_log" name="log_text" placeholder="Enter a log" />
   {% csrf_token %}
 </form>
