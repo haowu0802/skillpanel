@@ -1,11 +1,15 @@
 # a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
 ##
 #TODOS:
-prettify app
-a nice large input field
-a big container for the input box
+
 
 #HISTORY:
+MILESTONE: finished basic beautify of the app
+style: use Bootstrap components to beautify style
+FT: change to StaticLiveServerTestCase for FT to use static files
+static: fix static file routing
+style: add Bootstrap styles to el
+style: integrate Bootstrap
 refactor: extract base.html from templates
 Resource: add Bootstrap 4 to application static file directory
 FT-layout: add layout/style check in FT

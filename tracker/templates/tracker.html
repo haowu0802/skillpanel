@@ -5,7 +5,7 @@
 {% block form_action %}/trackers/{{ tracker.id }}/add_log{% endblock %}
 
 {% block table %}
-  <table id="id_log_table" >
+  <table id="id_log_table" class="table">
     {% for log in tracker.log_set.all %}
     <tr><td>{{ forloop.counter }}. {{ log.text }}</td></tr>
     {% endfor %}

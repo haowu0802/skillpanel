@@ -3,7 +3,7 @@ The functional tests / black box tests / acceptance tests / end2end tests
     for Skill List
         by Leon (Hao Wu)
 """
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver  # the web driver for functional tests
 from selenium.webdriver.common.keys import Keys  # for sending key press to webdriver
 from selenium.common.exceptions import WebDriverException
@@ -18,7 +18,7 @@ LONG_PAUSE = 10  # generic long pause, for debugging
 MAX_WAIT = 10  # wait no longer than this
 
 
-class NewVisitorTest(LiveServerTestCase):  # group tests into classes
+class NewVisitorTest(StaticLiveServerTestCase):  # group tests into classes
     """a new visitor's common behavior first time to the web app"""
     def setUp(self):
         """HELPER:
@@ -66,7 +66,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
         input_box = self.browser.find_element_by_id('id_new_log')  # find input box by id 'id_new_item'
         self.assertEqual(
             input_box.get_attribute('placeholder'),  # check to see if 'Enter a log' is the placeholder of the input box
-            'Enter a log'
+            'Enter a Log'
         )
 
         # She enters Poke the training dummy with needle, (Swordplay), needle is the name of her castle forged sword
@@ -152,7 +152,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
         # He starts a new Tracker and sees the input box is nicely centered too
         input_box.send_keys('testing layout')
         input_box.send_keys(Keys.ENTER)
-        self.wait_for_text_in_rows_of_table('testing layout')
+        self.wait_for_text_in_rows_of_table('1. testing layout')
         input_box = self.browser.find_element_by_id('id_new_log')
         self.assertAlmostEqual(
             input_box.location['x'] + input_box.size['width'] / 2,
