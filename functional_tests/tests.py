@@ -21,16 +21,18 @@ MAX_WAIT = 10  # wait no longer than this
 class NewVisitorTest(LiveServerTestCase):  # group tests into classes
     """a new visitor's common behavior first time to the web app"""
     def setUp(self):
-        """setUp runs before each test"""
+        """HELPER:
+        setUp runs before each test"""
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(WAIT_SEC)
 
     def tearDown(self):
-        """tearDown runs after each test, even with exceptions"""
+        """HELPER:
+        tearDown runs after each test, even with exceptions"""
         self.browser.quit()
 
     def wait_for_text_in_rows_of_table(self, row_text):
-        """
+        """HELPER
         wait for table to load and check for existence of row_text in table
             SHORT_PAUSE between reties
         :param row_text:
@@ -49,6 +51,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
                 time.sleep(SHORT_PAUSE)
 
     def test_can_start_a_list_for_one_user(self):
+        """FT-CHECK: a user can start a new Tracker by adding a Log"""
         # Arya Stark comes to the cool website that helps people saving their skills
         self.browser.get(self.live_server_url)
 
@@ -90,6 +93,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
         # She's satisfied and left.
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
+        """FT-CHECK: each user can use their own Tracker without stepping into each other's Tracker"""
         # Arya starts a new skill tracker
         self.browser.get(self.live_server_url)
         input_box = self.browser.find_element_by_id('id_new_log')
@@ -130,3 +134,28 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
 
         # Satisfied, both of them left.
 
+    def test_layout_and_styling(self):
+        """FT-CHECK: layout and styling are generally correct"""
+        # Jon Snow goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # He noticed the input box is nicely centered
+        input_box = self.browser.find_element_by_id('id_new_log')
+        # # (x+0.5*w).middlePointInputBox = (1024/2=512).middleScreen +- 10
+        self.assertAlmostEqual(
+            input_box.location['x'] + input_box.size['width'] / 2,
+            512,
+            delta=10
+        )
+
+        # He starts a new Tracker and sees the input box is nicely centered too
+        input_box.send_keys('testing layout')
+        input_box.send_keys(Keys.ENTER)
+        self.wait_for_text_in_rows_of_table('testing layout')
+        input_box = self.browser.find_element_by_id('id_new_log')
+        self.assertAlmostEqual(
+            input_box.location['x'] + input_box.size['width'] / 2,
+            512,
+            delta=10
+        )

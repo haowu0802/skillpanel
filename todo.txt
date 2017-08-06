@@ -1,9 +1,12 @@
 # a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
 ##
 #TODOS:
-generate URL for each tracker
+prettify app
+a nice large input field
+a big container for the input box
 
 #HISTORY:
+FT-layout: add layout/style check in FT
 refactor: Tracker routing separated from site routing
 MILESTONE: add feature - add Log to existing Tracker
 tpl: change form action for add Log to correct URL
