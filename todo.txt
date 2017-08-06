@@ -6,6 +6,8 @@ a nice large input field
 a big container for the input box
 
 #HISTORY:
+refactor: extract base.html from templates
+Resource: add Bootstrap 4 to application static file directory
 FT-layout: add layout/style check in FT
 refactor: Tracker routing separated from site routing
 MILESTONE: add feature - add Log to existing Tracker

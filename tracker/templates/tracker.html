@@ -1,21 +1,13 @@
-<html>
-<head>
-  <title>Skill Tracker</title>
-</head>
+{% extends 'base.html' %}
 
-<body>
-<h1>Your Skill Logs</h1>
+{% block header_text %}Your Skill Tracker{% endblock %}
 
-<form method="POST" action="/trackers/{{ tracker.id }}/add_log">
-  <input id="id_new_log" name="log_text" placeholder="Enter a log" />
-  {% csrf_token %}
-</form>
+{% block form_action %}/trackers/{{ tracker.id }}/add_log{% endblock %}
 
-<table id="id_log_table" >
-  {% for log in tracker.log_set.all %}
-  <tr><td>{{ forloop.counter }}. {{ log.text }}</td></tr>
-  {% endfor %}
-</table>
-
-</body>
-</html>
+{% block table %}
+  <table id="id_log_table" >
+    {% for log in tracker.log_set.all %}
+    <tr><td>{{ forloop.counter }}. {{ log.text }}</td></tr>
+    {% endfor %}
+  </table>
+{% endblock %}

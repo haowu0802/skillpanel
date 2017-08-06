@@ -1,15 +1,5 @@
-<html>
-  <head>
-    <title>Skill Tracker</title>
-  </head>
+{% extends 'base.html' %}
 
-  <body>
-    <h1>Start a new Skill Tracker</h1>
+{% block header_text %}Start a new Skill Tracker{% endblock %}
 
-    <form method="POST" action="/trackers/new">
-      <input id="id_new_log" name="log_text" placeholder="Enter a log" />
-      {% csrf_token %}
-    </form>
-
-  </body>
-</html>
+{% block form_action %}/trackers/new{% endblock %}
