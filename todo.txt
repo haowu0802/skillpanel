@@ -1,12 +1,22 @@
 # a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
 ##
 #TODOS:
-mod model -> logs belongs to each tracker
 generate URL for each tracker
-add URL for POST create log to exist tracker
+refactor URL dups
 
 #HISTORY:
-MILESTONE: tracker model added
+MILESTONE: add feature - add Log to existing Tracker
+tpl: change form action for add Log to correct URL
+view: add add_log view
+routing: add URL for add_log to existing Tracker
+routing: change Tracker id from any char to any num
+unittest: add unittest for POST - add Log to existing Tracker, and redirect to Tracker view after save
+view: fix redirects to correct URL with tracker_id
+view: add filter to view_tracker for Logs belong to Tracker
+routing: add param tracker_id to TrackerView
+routing: add URL params for Tracker id
+unittest: TrackerViewTest for unique URLs, test_display_only_logs_for_tracker
+MILESTONE: tracker model added, each Log now has its Tracker
 tracker model: fix views for POST with Tracker obj in Log obj
 tracker model: fix unittest for display logs,
 tracker model: add tracker attr to logs, with FK set

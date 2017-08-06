@@ -20,6 +20,8 @@ from tracker import views
 urlpatterns = [
     url(r'^$', views.home_page, name='home'),
     url(r'^trackers/new$', views.new_tracker, name="new_tracker"),
-    url(r'^trackers/the-only-tracker/$', views.view_tracker, name='view_tracker'),
+    # any digits for Tracker id
+    url(r'^trackers/(\d+)/$', views.view_tracker, name='view_tracker'),
+    url(r'^trackers/(\d+)/add_log$', views.add_log, name='add_log'),
     # url(r'^admin/', admin.site.urls),
 ]

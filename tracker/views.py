@@ -8,10 +8,11 @@ def home_page(request):
     return render(request, 'home.html')
 
 
-def view_tracker(request):
-    logs = Log.objects.all()
+def view_tracker(request, tracker_id):
+    """list Logs for a Tracker"""
+    tracker = Tracker.objects.get(id=tracker_id)
     return render(request, 'tracker.html', {
-        'logs': logs,
+        'tracker': tracker,
     })
 
 
@@ -20,4 +21,12 @@ def new_tracker(request):
     tracker = Tracker.objects.create()
     Log.objects.create(text=request.POST['log_text'],
                        tracker=tracker)
-    return redirect('/trackers/the-only-tracker/')
+    return redirect(f'/trackers/{tracker.id}/')
+
+
+def add_log(request, tracker_id):
+    """add a new Log to an existing Tracker"""
+    tracker = Tracker.objects.get(id=tracker_id)
+    Log.objects.create(text=request.POST['log_text'],
+                       tracker=tracker)
+    return redirect(f'/trackers/{tracker.id}/')
