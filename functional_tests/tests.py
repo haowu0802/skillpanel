@@ -108,7 +108,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
 
         # Jon visits the home page, there is no sign of Arya's trackers
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('training dummy', page_text)
         self.assertNotIn('cat in the dungeon', page_text)
 
@@ -124,7 +124,7 @@ class NewVisitorTest(LiveServerTestCase):  # group tests into classes
         self.assertNotEqual(jon_tracker_url, arya_tracker_url)
 
         # Again, there's no sign of Arya's logs
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('training dummy', page_text)
         self.assertNotIn('cat in the dungeon', page_text)
 
