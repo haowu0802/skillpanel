@@ -2,9 +2,9 @@
 ##
 #TODOS:
 generate URL for each tracker
-refactor URL dups
 
 #HISTORY:
+refactor: Tracker routing separated from site routing
 MILESTONE: add feature - add Log to existing Tracker
 tpl: change form action for add Log to correct URL
 view: add add_log view

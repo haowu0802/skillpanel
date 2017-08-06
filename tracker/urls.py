@@ -13,16 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
-from tracker import views as tracker_views
-from tracker import urls as tracker_urls
+from django.conf.urls import url
+from tracker import views
 
-
+# omit tracker/ prefix
 urlpatterns = [
-    url(r'^$', tracker_views.home_page, name='home'),
-    # prefixed with trackers/
-    url(r'^trackers/', include(tracker_urls)),
-
-    # url(r'^admin/', admin.site.urls),
+    url(r'^new$', views.new_tracker, name="new_tracker"),
+    # any digits for Tracker id
+    url(r'^(\d+)/$', views.view_tracker, name='view_tracker'),
+    url(r'^(\d+)/add_log$', views.add_log, name='add_log'),
 ]
