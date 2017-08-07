@@ -8,6 +8,7 @@ from selenium import webdriver  # the web driver for functional tests
 from selenium.webdriver.common.keys import Keys  # for sending key press to webdriver
 from selenium.common.exceptions import WebDriverException
 import time  # to use sleep
+import os  # for env vars
 
 
 """conf"""
@@ -24,6 +25,10 @@ class NewVisitorTest(StaticLiveServerTestCase):  # group tests into classes
         """HELPER:
         setUp runs before each test"""
         self.browser = webdriver.Firefox()
+        # check staging server address in env vars
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server
         self.browser.implicitly_wait(WAIT_SEC)
 
     def tearDown(self):

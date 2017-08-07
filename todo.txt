@@ -1,9 +1,17 @@
 # a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
 ##
 #TODOS:
-
+get FT to be able to run against Staging server
+spin up a server, install software, point staging and live domain to it
+upload to server
+get a quick and dirty version of app to run with django dev server
+manually set up virtualenv on server and make sure db and static are working
+keep running FT
+move from temp to prod-ready
+automate deploy
 
 #HISTORY:
+FT: add staging test target
 static: set collectstatic location and disable admin features
 MILESTONE: finished basic beautify of the app
 style: use Bootstrap components to beautify style
