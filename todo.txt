@@ -4,6 +4,7 @@
 
 
 #HISTORY:
+static: set collectstatic location and disable admin features
 MILESTONE: finished basic beautify of the app
 style: use Bootstrap components to beautify style
 FT: change to StaticLiveServerTestCase for FT to use static files
