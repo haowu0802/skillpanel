@@ -11,6 +11,8 @@ move from temp to prod-ready
 automate deploy
 
 #HISTORY:
+deploy: add psycopg2 lib
+deploy: add requirements, move database
 FT: add staging test target
 static: set collectstatic location and disable admin features
 MILESTONE: finished basic beautify of the app
