@@ -26,7 +26,7 @@ SECRET_KEY = 'ph-4twliqe=t=(az!ph)$b87bgj2a%gcv&rj^x#jq)y*@s*s@v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['www.theskillpanel.com', 'theskillpanel.com', 'localhost']
 
 
 # Application definition
