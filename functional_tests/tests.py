@@ -7,18 +7,19 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver  # the web driver for functional tests
 from selenium.webdriver.common.keys import Keys  # for sending key press to webdriver
 from selenium.common.exceptions import WebDriverException
+from unittest import skip
 import time  # to use sleep
 import os  # for env vars
 
 
 """conf"""
-URL_LOCAL = 'http://127.0.0.1:8000'  # local url of web app
+URL_LOCAL = 'http://localhost:8000'  # local url of web app
 WAIT_SEC = 3  # number of seconds wait at start
 SHORT_PAUSE = 0.5  # generic short wait, for latency, slow machines
 LONG_PAUSE = 10  # generic long pause, for debugging
 MAX_WAIT = 10  # wait no longer than this
 
-
+'''
 class NewVisitorTest(StaticLiveServerTestCase):  # group tests into classes
     """a new visitor's common behavior first time to the web app"""
     def setUp(self):
@@ -55,6 +56,7 @@ class NewVisitorTest(StaticLiveServerTestCase):  # group tests into classes
                     raise e
                 time.sleep(SHORT_PAUSE)
 
+    @skip
     def test_can_start_a_list_for_one_user(self):
         """FT-CHECK: a user can start a new Tracker by adding a Log"""
         # Arya Stark comes to the cool website that helps people saving their skills
@@ -97,6 +99,7 @@ class NewVisitorTest(StaticLiveServerTestCase):  # group tests into classes
 
         # She's satisfied and left.
 
+    @skip
     def test_multiple_users_can_start_lists_at_different_urls(self):
         """FT-CHECK: each user can use their own Tracker without stepping into each other's Tracker"""
         # Arya starts a new skill tracker
@@ -139,6 +142,7 @@ class NewVisitorTest(StaticLiveServerTestCase):  # group tests into classes
 
         # Satisfied, both of them left.
 
+    @skip
     def test_layout_and_styling(self):
         """FT-CHECK: layout and styling are generally correct"""
         # Jon Snow goes to the home page
@@ -164,3 +168,4 @@ class NewVisitorTest(StaticLiveServerTestCase):  # group tests into classes
             512,
             delta=10
         )
+'''
