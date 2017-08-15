@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.exceptions import ValidationError
 from tracker.models import Log, Tracker
 
 # Create your views here.
@@ -19,8 +20,15 @@ def view_tracker(request, tracker_id):
 def new_tracker(request):
     """create a new tracker and redirect to its url"""
     tracker = Tracker.objects.create()
-    Log.objects.create(text=request.POST['log_text'],
-                       tracker=tracker)
+    log = Log.objects.create(text=request.POST['log_text'],
+                             tracker=tracker)
+    try:
+        log.full_clean()
+        log.save()
+    except ValidationError:
+        tracker.delete()
+        error = "You can't save an empty log."
+        return render(request, 'home.html', {'error': error})
     return redirect(f'/trackers/{tracker.id}/')
 
 

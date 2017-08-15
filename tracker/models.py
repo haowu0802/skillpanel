@@ -8,5 +8,5 @@ class Tracker(models.Model):
 
 
 class Log(models.Model):
-    text = models.TextField(default='')
+    text = models.TextField(blank=False)
     tracker = models.ForeignKey(Tracker, default=None)

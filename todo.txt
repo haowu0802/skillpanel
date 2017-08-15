@@ -1,16 +1,12 @@
 # a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
 ##
 #TODOS:
-get FT to be able to run against Staging server
-spin up a server, install software, point staging and live domain to it
-upload to server
-get a quick and dirty version of app to run with django dev server
-manually set up virtualenv on server and make sure db and static are working
-keep running FT
-move from temp to prod-ready
-automate deploy
+refactor hardcoded URLs
 
 #HISTORY:
+validation: add text empty validation to model
+test: reorganized tests
+deploy: add whitenoise and configure staticfiles
 deploy: add psycopg2 lib
 deploy: add requirements, move database
 FT: add staging test target

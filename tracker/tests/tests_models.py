@@ -4,7 +4,7 @@ The unit tests
         by Leon (Hao Wu)
 """
 from django.test import TestCase  # extends unittest.TestCase
-
+from django.core.exceptions import ValidationError
 from tracker.models import Log, Tracker  # the Log that user inputs to track their skills
 
 # Create your tests here.
@@ -12,7 +12,6 @@ from tracker.models import Log, Tracker  # the Log that user inputs to track the
 
 class LogAndTrackerModelTest(TestCase):
     def test_saving_and_retrieving_logs(self):
-        """CHECK: can save and read functions"""
         # create and save associated tracker
         tracker = Tracker()
         tracker.save()
@@ -40,3 +39,10 @@ class LogAndTrackerModelTest(TestCase):
         self.assertEqual(first_saved_log.tracker, tracker)
         self.assertEqual(second_saved_log.text, 'Log the second')
         self.assertEqual(second_saved_log.tracker, tracker)
+
+    def test_cannot_save_empty_log_items(self):
+        tracker = Tracker.objects.create()
+        log = Log(tracker=tracker, text='')
+        with self.assertRaises(ValidationError):
+            log.save()
+            log.full_clean()
