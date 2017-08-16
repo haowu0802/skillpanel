@@ -1,9 +1,6 @@
 # a list of todos/goals as a step by step guide in implementing the application in TDD manner, ordered by time of completion desc
 ##
-#TODOS:
-refactor hardcoded URLs
-
-#HISTORY:
+refactor: url in templates
 validation: add validation to add Log to Tracker view
 refactor: tracker view handles POST
 validation: add text empty validation to model
