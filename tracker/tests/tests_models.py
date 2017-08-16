@@ -46,3 +46,7 @@ class LogAndTrackerModelTest(TestCase):
         with self.assertRaises(ValidationError):
             log.save()
             log.full_clean()
+
+    def test_get_absolute_url(self):
+        tracker = Tracker.objects.create()
+        self.assertEqual(tracker.get_absolute_url(), '/trackers/%d/' % (tracker.id,))

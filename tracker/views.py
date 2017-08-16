@@ -19,7 +19,7 @@ def view_tracker(request, tracker_id):
             log = Log.objects.create(text=request.POST['log_text'], tracker=tracker)
             log.full_clean()
             log.save()
-            return redirect('/trackers/%d/' % (tracker.id,))
+            return redirect(tracker)
         except ValidationError:
             error = "You can't save an empty log."
 
@@ -40,7 +40,7 @@ def new_tracker(request):
         tracker.delete()
         error = "You can't save an empty log."
         return render(request, 'home.html', {'error': error})
-    return redirect(f'/trackers/{tracker.id}/')
+    return redirect(tracker)
 
 
 def add_log(request, tracker_id):
