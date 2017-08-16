@@ -10,11 +10,16 @@ def home_page(request):
 
 
 def view_tracker(request, tracker_id):
-    """list Logs for a Tracker"""
+    """list Logs for a Tracker, process POST to add Log"""
     tracker = Tracker.objects.get(id=tracker_id)
-    return render(request, 'tracker.html', {
-        'tracker': tracker,
-    })
+
+    if request.method == 'POST':
+        Log.objects.create(text=request.POST['log_text'], tracker=tracker)
+        return redirect('/trackers/%d/' % (tracker.id,))
+
+    return render(request,
+                  'tracker.html',
+                  {'tracker': tracker, })
 
 
 def new_tracker(request):

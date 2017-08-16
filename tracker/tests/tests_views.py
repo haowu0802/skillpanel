@@ -49,6 +49,43 @@ class TrackerViewTest(TestCase):
         response = self.client.get(f'/trackers/{correct_tracker.id}/')
         self.assertEqual(response.context['tracker'], correct_tracker)
 
+    def test_can_save_a_POST_log_to_an_existing_tracker(self):
+        correct_text = 'A new Log for an existing Tracker'
+
+        # make 2 trackers, compare later
+        other_tracker = Tracker.objects.create()
+        correct_tracker = Tracker.objects.create()
+
+        # POST a Log to correct Tracker
+        self.client.post(
+            f'/trackers/{correct_tracker.id}/',
+            data={
+                'log_text': correct_text
+            }
+        )
+
+        # a Log created, to the first place, with correct text, to the correct Tracker
+        self.assertEqual(Log.objects.count(), 1)
+        new_log = Log.objects.first()
+        self.assertEqual(new_log.text, correct_text)
+        self.assertEqual(new_log.tracker, correct_tracker)
+
+    def test_POST_redirects_to_tracker_view(self):
+        correct_text = 'A new Log for an existing Tracker'
+
+        correct_tracker = Tracker.objects.create()
+        other_tracker = Tracker.objects.create()
+
+        response = self.client.post(
+            f'/trackers/{correct_tracker.id}/',
+            data={
+                'log_text': correct_text
+            }
+        )
+
+        expected_url = f'/trackers/{correct_tracker.id}/'
+        self.assertRedirects(response, expected_url)
+
 
 class NewTrackerTest(TestCase):
 
@@ -89,41 +126,3 @@ class NewTrackerTest(TestCase):
         })
         self.assertEqual(Tracker.objects.count(), 0)
         self.assertEqual(Log.objects.count(), 0)
-
-
-class NewLogTest(TestCase):
-    def test_can_save_a_POST_log_to_an_existing_tracker(self):
-        correct_text = 'A new Log for an existing Tracker'
-        # make 2 trackers, compare later
-        other_tracker = Tracker.objects.create()
-        correct_tracker = Tracker.objects.create()
-
-        # POST a Log to correct Tracker
-        self.client.post(
-            f'/trackers/{correct_tracker.id}/add_log',
-            data={
-                'log_text': correct_text
-            }
-        )
-
-        # a Log created, to the first place, with correct text, to the correct Tracker
-        self.assertEqual(Log.objects.count(), 1)
-        new_log = Log.objects.first()
-        self.assertEqual(new_log.text, correct_text)
-        self.assertEqual(new_log.tracker, correct_tracker)
-
-    def test_redirects_to_tracker_view(self):
-        correct_text = 'A new Log for an existing Tracker'
-
-        correct_tracker = Tracker.objects.create()
-        other_tracker = Tracker.objects.create()
-
-        response = self.client.post(
-            f'/trackers/{correct_tracker.id}/add_log',
-            data={
-                'log_text': correct_text
-            }
-        )
-
-        expected_url = f'/trackers/{correct_tracker.id}/'
-        self.assertRedirects(response, expected_url)

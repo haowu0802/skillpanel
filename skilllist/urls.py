@@ -23,6 +23,5 @@ urlpatterns = [
     url(r'^$', tracker_views.home_page, name='home'),
     # prefixed with trackers/
     url(r'^trackers/', include(tracker_urls)),
-
     # url(r'^admin/', admin.site.urls),
 ]

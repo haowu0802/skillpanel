@@ -18,8 +18,7 @@ from tracker import views
 
 # omit tracker/ prefix
 urlpatterns = [
-    url(r'^new$', views.new_tracker, name="new_tracker"),
     # any digits for Tracker id
     url(r'^(\d+)/$', views.view_tracker, name='view_tracker'),
-    url(r'^(\d+)/add_log$', views.add_log, name='add_log'),
+    url(r'^new$', views.new_tracker, name="new_tracker"),
 ]
