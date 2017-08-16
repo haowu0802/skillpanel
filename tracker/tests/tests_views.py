@@ -4,7 +4,7 @@ The unit tests
         by Leon (Hao Wu)
 """
 from django.test import TestCase  # extends unittest.TestCase
-
+from django.utils.html import escape
 from tracker.models import Log, Tracker  # the Log that user inputs to track their skills
 
 # Create your tests here.
@@ -86,6 +86,16 @@ class TrackerViewTest(TestCase):
         expected_url = f'/trackers/{correct_tracker.id}/'
         self.assertRedirects(response, expected_url)
 
+    def test_validation_errors_end_up_on_tracker_page(self):
+        tracker = Tracker.objects.create()
+        response = self.client.post(
+            f'/trackers/{tracker.id}/',
+            data={'log_text': ''}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tracker.html')
+        expected_error = escape("You can't save an empty log.")
+        self.assertContains(response, expected_error)
 
 class NewTrackerTest(TestCase):
 

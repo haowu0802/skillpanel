@@ -12,14 +12,20 @@ def home_page(request):
 def view_tracker(request, tracker_id):
     """list Logs for a Tracker, process POST to add Log"""
     tracker = Tracker.objects.get(id=tracker_id)
+    error = None
 
     if request.method == 'POST':
-        Log.objects.create(text=request.POST['log_text'], tracker=tracker)
-        return redirect('/trackers/%d/' % (tracker.id,))
+        try:
+            log = Log.objects.create(text=request.POST['log_text'], tracker=tracker)
+            log.full_clean()
+            log.save()
+            return redirect('/trackers/%d/' % (tracker.id,))
+        except ValidationError:
+            error = "You can't save an empty log."
 
     return render(request,
                   'tracker.html',
-                  {'tracker': tracker, })
+                  {'tracker': tracker, 'error': error})
 
 
 def new_tracker(request):

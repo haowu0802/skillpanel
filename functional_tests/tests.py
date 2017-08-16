@@ -2,7 +2,8 @@
 The functional tests / black box tests / acceptance tests / end2end tests
     for Skill List
         by Leon (Hao Wu)
-"""
+
+
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver  # the web driver for functional tests
 from selenium.webdriver.common.keys import Keys  # for sending key press to webdriver
@@ -10,7 +11,7 @@ from selenium.common.exceptions import WebDriverException
 from unittest import skip
 import time  # to use sleep
 import os  # for env vars
-
+"""
 
 """conf"""
 URL_LOCAL = 'http://localhost:8000'  # local url of web app

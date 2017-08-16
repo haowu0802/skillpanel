@@ -4,6 +4,8 @@
 refactor hardcoded URLs
 
 #HISTORY:
+validation: add validation to add Log to Tracker view
+refactor: tracker view handles POST
 validation: add text empty validation to model
 test: reorganized tests
 deploy: add whitenoise and configure staticfiles
