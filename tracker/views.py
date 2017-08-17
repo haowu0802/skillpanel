@@ -46,6 +46,14 @@ def new_tracker(request):
 def add_log(request, tracker_id):
     """add a new Log to an existing Tracker"""
     tracker = Tracker.objects.get(id=tracker_id)
-    Log.objects.create(text=request.POST['log_text'],
-                       tracker=tracker)
-    return redirect(f'/trackers/{tracker.id}/')
+    log = Log.objects.create(text=request.POST['log_text'],
+                             tracker=tracker)
+    try:
+        log.full_clean()
+        log.save()
+    except ValidationError:
+        tracker.delete()
+        error = "You can't save an empty log."
+        return render(request, 'home.html', {'error': error})
+
+    return redirect(tracker)
